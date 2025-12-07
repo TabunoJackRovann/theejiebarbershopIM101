@@ -18,7 +18,7 @@ import Logo from "../assets/Logo.png";
 
 export default function BookingScreen({ navigation, route }) {
   const user = route?.params?.user ?? { id: null };
-  const API_BASE = "http://127.0.0.1/barbershop_apii/";
+  const API_BASE = "http://127.0.0.1/barbershop_apii/"; // https://barbershopapp.infinityfreeapp.com/barbershop_apii/login.php <- hosting unta pero naa may bayad
 
   const { width } = useWindowDimensions();
   const isMobile = width < 720 || Platform.OS !== "web";

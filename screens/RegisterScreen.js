@@ -35,7 +35,7 @@ export default function RegisterScreen({ navigation }) {
     }
 
     axios
-      .post("http://127.0.0.1/barbershop_apii/register.php", {
+      .post("http://127.0.0.1/barbershop_apii/register.php", { //  https://barbershopapp.infinityfreeapp.com/barbershop_apii/register.php
         name,
         email,
         password,
