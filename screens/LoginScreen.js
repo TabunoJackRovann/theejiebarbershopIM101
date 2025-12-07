@@ -16,6 +16,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Logo from "../assets/Logo.png"; // same as sample
 import CustomCard from "../components/CustomCard"; // reuse sample card
+import qs from "qs"; // at the top
 
 export default function LoginScreen({ navigation, setUser }) {
   const { width } = useWindowDimensions();
@@ -38,9 +39,12 @@ export default function LoginScreen({ navigation, setUser }) {
 
     try {
       const response = await axios.post(
-        "https://barbershopapp.infinityfreeapp.com/barbershop_apii/login.php",
-        { email, password }
-      );
+  "https://barbershopapp.infinityfreeapp.com/barbershop_apii/login.php",
+  qs.stringify({ email, password }),
+  {
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  }
+);
 
       if (response.data.success && response.data.user) {
         const userObj = response.data.user;
