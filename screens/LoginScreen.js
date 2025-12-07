@@ -38,7 +38,7 @@ export default function LoginScreen({ navigation, setUser }) {
 
     try {
       const response = await axios.post(
-        "https://barbershopapp.infinityfreeapp.com/barbershop_apii/",
+        "https://barbershopapp.infinityfreeapp.com/barbershop_apii/login.php",
         { email, password }
       );
 
