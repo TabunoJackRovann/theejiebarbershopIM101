@@ -22,7 +22,7 @@ export default function DashboardScreen({ navigation }) {
   const { width } = useWindowDimensions();
   const isMobile = width < 800; // if width is less than kani kay mo mobile sya
 
-  const API_BASE = "https://barbershopapp.infinityfreeapp.com/barbershop_apii/";
+  const API_BASE = "http://127.0.0.1/barbershop_apii/";
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);

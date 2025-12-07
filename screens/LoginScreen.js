@@ -38,7 +38,7 @@ export default function LoginScreen({ navigation, setUser }) {
 
     try {
       const response = await axios.post(
-        "http://ejiebarbershop.byethost22.com/barbershop_apii/login.php", // "http://127.0.0.1/barbershop_apii/login.php", <- kani if local ra
+        "http://127.0.0.1/barbershop_apii/login.php",
         { email, password }
       );
 

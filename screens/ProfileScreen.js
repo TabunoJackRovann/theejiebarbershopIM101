@@ -56,7 +56,7 @@ export default function ProfileScreen({ route, navigation }) {
     const fetchBookings = async () => {
       try {
         const res = await axios.get(
-          `https://barbershopapp.infinityfreeapp.com/barbershop_apii/get_user_bookings.php?user_id=${userData.user_id}` // mao ni tong get_user_bookings.php 
+          `http://127.0.0.1/barbershop_apii/get_user_bookings.php?user_id=${userData.user_id}` // mao ni tong get_user_bookings.php 
         );                                                                                     // pang profile lang, lahi tong nasa dashboard
         if (res.data.success) {
           setUserData(res.data.user);
