@@ -58,10 +58,14 @@ export default function RegisterScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {/* NAVBAR (COPIED EXACTLY FROM SAMPLE) */}
-      <View style={styles.navBar}>
-        <Image source={Logo} style={styles.navLogo} />
-        <Text style={styles.navTitle}>THE EJIE BARBERSHOP</Text>
-      </View>
+       {/* Top Navbar */}
+     <View style={styles.navBar}>
+       <Image source={Logo} style={styles.navLogo} />
+       
+       <Pressable onPress={() => navigation.navigate("Showcase")}>
+         <Text style={styles.navTitle}>THE EJIE BARBERSHOP</Text>
+       </Pressable>
+     </View>
 
       {/* MAIN FORM CARD */}
       <KeyboardAvoidingView

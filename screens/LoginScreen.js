@@ -65,10 +65,13 @@ export default function LoginScreen({ navigation, setUser }) {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {/* Top Navbar */}
-      <View style={styles.navBar}>
-        <Image source={Logo} style={styles.navLogo} />
-        <Text style={styles.navTitle}>THE EJIE BARBERSHOP</Text>
-      </View>
+<View style={styles.navBar}>
+  <Image source={Logo} style={styles.navLogo} />
+  
+  <Pressable onPress={() => navigation.navigate("Showcase")}>
+    <Text style={styles.navTitle}>THE EJIE BARBERSHOP</Text>
+  </Pressable>
+</View>
 
       {/* Main Login Card */}
       <KeyboardAvoidingView
