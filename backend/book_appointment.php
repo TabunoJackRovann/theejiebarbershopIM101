@@ -245,12 +245,12 @@ try {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'ttsunayashiro8@gmail.com';
-        $mail->Password   = 'mwddbtycpuowlkhd'; // Gmail App Password
+        $mail->Username   = '';
+        $mail->Password   = ''; // Gmail App Password
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
-        $mail->setFrom('ttsunayashiro8@gmail.com', 'Ejie Barbershop');
+        $mail->setFrom('', 'Ejie Barbershop');
         $mail->addAddress($user_email, $user_name);
 
         $mail->isHTML(true);
