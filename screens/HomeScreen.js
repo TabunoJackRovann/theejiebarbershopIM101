@@ -43,7 +43,7 @@ export default function HomeScreen({ navigation, user, setUser }) {
       setUser(null);
       navigation.reset({
         index: 0,
-        routes: [{ name: "Login" }],
+        routes: [{ name: "Showcase" }],
       });
     }, 3000);
   };
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   navTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#e5e5e5",
+    color: "#fff",
     fontFamily: "Kristi",
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 4 },
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#eee",
-    fontFamily: "Kristi",
+    
   },
 
   sidebarBtn: {
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: "#e5e5e5",
-    fontFamily: "Kristi",
+    
   },
   logoutBtn: {
     backgroundColor: "#404740ff",
@@ -319,13 +319,13 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#fff",
-    fontFamily: "Kristi",
+    
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
     color: "#ddd",
-    fontFamily: "Kristi",
+   
     marginBottom: 25,
   },
 
@@ -350,13 +350,13 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     color: "#fff",
-    fontFamily: "Kristi",
+   
     marginBottom: 6,
   },
   cardDesc: {
     fontSize: 16,
     color: "#eee",
-    fontFamily: "Kristi",
+   
   },
 
   /* Modal */

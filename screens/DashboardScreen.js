@@ -62,12 +62,32 @@ export default function DashboardScreen({ navigation }) {
     }).start();
   };
 
+  const [viewUsers, setViewUsers] = useState(false); // modal open/close
+  const [usersBookings, setUsersBookings] = useState([]); // data of users & their bookings
+  const [loadingUsersBookings, setLoadingUsersBookings] = useState(false); // loading indicator
+
+  const fetchUsersBookings = async () => {
+    setLoadingUsersBookings(true);
+    try {
+      const res = await axios.get(API_BASE + "get_users_with_bookings.php");
+      if (res.data.success) setUsersBookings(res.data.users_bookings || []);
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Error", "Failed to fetch users and bookings");
+    } finally {
+      setLoadingUsersBookings(false);
+    }
+  };
+  useEffect(() => {
+    fetchUsersBookings();
+  }, []);
+
   // Fetch all bookings
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(API_BASE + "get_all_bookings.php");  // get_all_bookings.php mao ni sa tanan bookings, lahi tong sa profile
-      if (res.data.success) setBookings(res.data.bookings || []);      // pang dashboard rani sya
+      const res = await axios.get(API_BASE + "get_all_bookings.php"); // get_all_bookings.php mao ni sa tanan bookings, lahi tong sa profile
+      if (res.data.success) setBookings(res.data.bookings || []); // pang dashboard rani sya
     } catch (err) {
       console.error(err);
       Alert.alert("Error", "Failed to fetch bookings");
@@ -149,7 +169,7 @@ export default function DashboardScreen({ navigation }) {
     setTimeout(() => {
       setLogoutLoading(false);
       setLogoutModal(false);
-      navigation.replace("Login");
+      navigation.replace("Showcase");
     }, 3000);
   };
 
@@ -386,57 +406,82 @@ export default function DashboardScreen({ navigation }) {
       )}
 
       {/* Sidebar */}
-      {isMobile ? (
-        <Animated.View
-          style={[
-            styles.sidebar,
-            { transform: [{ translateX: sidebarPosition }] },
-          ]}
-        >
-          <Pressable
-            style={[styles.sidebarBtn, styles.logoutBtn]}
-            onPress={() => setLogoutModal(true)}
-          >
-            <Text style={[styles.sidebarText, { color: "#fff" }]}>Logout</Text>
-          </Pressable>
+{isMobile ? (
+  <Animated.View
+    style={[
+      styles.sidebar,
+      { transform: [{ translateX: sidebarPosition }] },
+    ]}
+  >
+    <Pressable
+      style={[styles.sidebarBtn, { marginBottom: 12 }]}
+      onPress={() => {
+        setViewUsers(true);
+        fetchUsersBookings(); // fetch latest data
+      }}
+    >
+      <Text style={[styles.sidebarText, { color: "#fff" }]}>
+        View Users
+      </Text>
+    </Pressable>
 
-          <Pressable
-            style={[styles.sidebarBtn, { marginTop: 8 }]}
-            onPress={() => {
-              setManageBarbersVisible(true);
-              // ensure barbers loaded
-              fetchBarbers();
-            }}
-          >
-            <Text style={[styles.sidebarText, { color: "#E5E7EB" }]}>
-              Manage Barbers
-            </Text>
-          </Pressable>
-        </Animated.View>
-      ) : (
-        <View style={styles.sidebar}>
-          <Text style={styles.sidebarTitle}>💈 Admin</Text>
+    <Pressable
+      style={[styles.sidebarBtn, styles.logoutBtn]}
+      onPress={() => setLogoutModal(true)}
+    >
+      <Text style={[styles.sidebarText, { color: "#fff" }]}>Logout</Text>
+    </Pressable>
 
-          <Pressable
-            style={[styles.sidebarBtn, { marginBottom: 12 }]}
-            onPress={() => {
-              setManageBarbersVisible(true);
-              fetchBarbers();
-            }}
-          >
-            <Text style={[styles.sidebarText, { color: "#fff" }]}>
-              Manage Barbers
-            </Text>
-          </Pressable>
+    <Pressable
+      style={[styles.sidebarBtn, { marginTop: 8 }]}
+      onPress={() => {
+        setManageBarbersVisible(true);
+        fetchBarbers();
+      }}
+    >
+      <Text style={[styles.sidebarText, { color: "#E5E7EB" }]}>
+        Manage Barbers
+      </Text>
+    </Pressable>
+  </Animated.View>
+) : (
+  <View style={styles.sidebar}>
+    <Text style={styles.sidebarTitle}>💈 Admin</Text>
 
-          <Pressable
-            style={[styles.sidebarBtn, styles.logoutBtn]}
-            onPress={() => setLogoutModal(true)}
-          >
-            <Text style={[styles.sidebarText, { color: "#fff" }]}>Logout</Text>
-          </Pressable>
-        </View>
-      )}
+    {/* Add View Users Button for Desktop */}
+    <Pressable
+      style={[styles.sidebarBtn, { marginBottom: 12 }]}
+      onPress={() => {
+        setViewUsers(true);
+        fetchUsersBookings(); // fetch latest data
+      }}
+    >
+      <Text style={[styles.sidebarText, { color: "#fff" }]}>
+        View Users
+      </Text>
+    </Pressable>
+
+    <Pressable
+      style={[styles.sidebarBtn, { marginBottom: 12 }]}
+      onPress={() => {
+        setManageBarbersVisible(true);
+        fetchBarbers();
+      }}
+    >
+      <Text style={[styles.sidebarText, { color: "#fff" }]}>
+        Manage Barbers
+      </Text>
+    </Pressable>
+
+    <Pressable
+      style={[styles.sidebarBtn, styles.logoutBtn]}
+      onPress={() => setLogoutModal(true)}
+    >
+      <Text style={[styles.sidebarText, { color: "#fff" }]}>Logout</Text>
+    </Pressable>
+  </View>
+)}
+
 
       {/* Content */}
       <View style={[styles.content, { marginLeft: isMobile ? 0 : 240 }]}>
@@ -842,6 +887,60 @@ export default function DashboardScreen({ navigation }) {
         </View>
       </Modal>
 
+<Modal transparent visible={viewUsers} animationType="slide">
+  <View style={styles.modalOverlay}>
+    <View
+      style={[
+        styles.manageModalContent,
+        isMobile ? { width: "92%" } : { width: 640 },
+      ]}
+    >
+      {/* Close Button */}
+      <Pressable
+        onPress={() => setViewUsers(false)}
+        style={styles.closeButton}
+      >
+        <Text style={{ fontSize: 18, fontWeight: "bold" }}>×</Text>
+      </Pressable>
+
+      <Text style={styles.modalTitle}>Users Booking Summary</Text>
+
+      {loadingUsersBookings ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : usersBookings.length === 0 ? (
+        <Text style={{ textAlign: "center", color: "#6B7280" }}>
+          No users found
+        </Text>
+      ) : (
+<ScrollView style={{ maxHeight: 400 }}>
+  {usersBookings.map((ub, i) => (
+    <View key={i} style={styles.bookingCard}>
+      <Text style={{ fontWeight: "bold" }}>
+        {ub.user_name} ({ub.email})
+      </Text>
+      <Text>Total Bookings: {ub.total_bookings}</Text>
+      <Text style={{ color: "green" }}>Completed: {ub.completed}</Text>
+      <Text style={{ color: "orange" }}>Pending: {ub.pending}</Text>
+      <Text style={{ color: "red" }}>Missed: {ub.missed}</Text>
+      <Text style={{ color: "#6B7280" }}>Cancelled: {ub.cancelled}</Text>
+
+      {/* New fields */}
+      <Text style={{ marginTop: 4, fontWeight: "500" }}>
+        Most Picked Barber: {ub.most_picked_barber || "None"}
+      </Text>
+      <Text style={{ marginTop: 2, fontWeight: "500" }}>
+        Most Picked Services: {ub.most_picked_service || "None"}
+      </Text>
+    </View>
+  ))}
+</ScrollView>
+
+      )}
+    </View>
+  </View>
+</Modal>
+
+
       <Modal transparent visible={logoutModal} animationType="fade">
         <View style={styles.modalOverlay}>
           <View
@@ -1133,4 +1232,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
+
+  closeButton: {  // modal sa view users
+  position: "absolute",
+  top: 10,
+  right: 10,
+  zIndex: 1,
+  padding: 5,
+}
+
 });

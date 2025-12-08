@@ -276,6 +276,8 @@ export default function BookingScreen({ navigation, route }) {
         appointment_time: selectedTime,
         services: selectedServices.map((s) => Number(s)),
         total_amount: totalAmount,
+        user_email: user.email, // must exist in user object
+        user_name: user.name,   // must exist in user object
       };
 
       const res = await axios.post(API_BASE + "book_appointment.php", payload, {

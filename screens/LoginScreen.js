@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   navTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "gray",
+    color: "#fff",
     fontFamily: "Kristi",
     textShadowColor: "black",
     textShadowOffset: { width: 1, height: 5 },

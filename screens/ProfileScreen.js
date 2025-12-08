@@ -48,7 +48,7 @@ export default function ProfileScreen({ route, navigation }) {
       setLogoutLoading(false);
       setLogoutModal(false);
       await AsyncStorage.removeItem("user");
-      navigation.reset({ index: 0, routes: [{ name: "Login" }] });
+      navigation.reset({ index: 0, routes: [{ name: "Showcase" }] });
     }, 3000);
   };
 
